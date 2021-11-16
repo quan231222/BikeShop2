@@ -38,7 +38,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <header class="header fixed-top clearfix">
 <!--logo start-->
 <div class="brand">
-    <a href="index.html" class="logo">
+    <a href="{{URL::to('/dashboard')}}" class="logo">
         ARABIC
     </a>
     <div class="sidebar-toggle-box">
@@ -57,7 +57,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                 <img alt="" src="{{('public/back/images/2.png')}}">
-                <span class="username">Quân Ngô</span>
+                <span class="username">
+					<?php
+					$name = Session::get('admin_name');
+					if($name){
+						echo $name;
+					}
+					?>
+				</span>
                 <b class="caret"></b>
             </a>
             <ul class="dropdown-menu extended logout">
@@ -92,8 +99,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <span>Danh mục sản phẩm</span>
                     </a>
                     <ul class="sub">
-						<li><a href="typography.html">Thêm danh mục</a></li>
-						<li><a href="glyphicon.html">Danh sách danh mục</a></li>
+						<li><a href="{{URL::to('/add-category-product')}}">Thêm danh mục sản phẩm</a></li>
+						<li><a href="{{URL::to('/show-category-product')}}">Danh sách danh mục sản phẩm</a></li>
                     </ul>
                 </li>
             </ul>            

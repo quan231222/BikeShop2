@@ -70,6 +70,9 @@ body a:hover{
     position:absolute;
     right:10px;
 }
+a.active.styling-edit {
+    font-size: 20px;
+}
 .active .dcjq-icon {
     background:url(../images/nav-expand.png) no-repeat bottom;
     border-radius:3px;

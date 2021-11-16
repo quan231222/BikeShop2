@@ -39,5 +39,9 @@ class AdminController extends Controller
 
     public function log_out()
     {
+        Session::put('admin_name', null);
+        Session::put('admin_id', null);
+
+        return Redirect::to('/admin');
     }
 }
