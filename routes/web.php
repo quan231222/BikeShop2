@@ -19,6 +19,7 @@ Route::get('/trang-chu', 'HomeController@index');
 //Danh mục sản phẩm trang chủ
 Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProductController@show_category_home');
 Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandProductController@show_brand_home');
+Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@detail_product');
 
 //Xử Lý
 Route::get('/admin', 'AdminController@index');
@@ -61,3 +62,7 @@ Route::get('/unactive-product/{product_id}', 'ProductController@unactive_product
 
 Route::post('/save-product', 'ProductController@save_product');
 Route::post('/update-product/{product_id}', 'ProductController@update_product');
+
+
+//Giỏ hàng
+Route::post('/save-cart', 'CartController@save_cart');

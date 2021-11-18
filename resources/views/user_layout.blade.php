@@ -7,6 +7,7 @@
     <!--theme-style-->
     <link href="{{ asset('public/back/css/font-awesome.css') }}" rel="stylesheet">
     <link href="{{asset('public/front/css/style.css')}}" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{asset('public/front/css/etalage.css')}}" type="text/css" media="all" />
     <!--//theme-style-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="application/x-javascript">
@@ -23,6 +24,23 @@
     <!--//fonts-->
     <script src="{{asset('public/front/js/jquery.min.js')}}"></script>
     <!--script-->
+    <script src="{{asset('publoc/front/js/jquery.etalage.min.js')}}"></script>
+    <script>
+			jQuery(document).ready(function($){
+
+				$('#etalage').etalage({
+					thumb_image_width: 300,
+					thumb_image_height: 400,
+					source_image_width: 900,
+					source_image_height: 1200,
+					show_hint: true,
+					click_callback: function(image_anchor, instance_id){
+						alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
+					}
+				});
+
+			});
+		</script>
 </head>
 
 <body>
