@@ -11,6 +11,16 @@ session_start();
 
 class AdminController extends Controller
 {
+    public function AuthCheck()
+    {
+        $admin_id = Session::get('admin_id');
+        if ($admin_id) {
+            return Redirect::to('dashboard');
+        } else {
+            return Redirect::to('admin')->send();
+        }
+    }
+
     public function index()
     {
         return view('admin_login');
@@ -18,6 +28,7 @@ class AdminController extends Controller
 
     public function show_dashboard()
     {
+        $this->AuthCheck();
         return view('admin.dashboard');
     }
 
@@ -39,6 +50,7 @@ class AdminController extends Controller
 
     public function log_out()
     {
+        $this->AuthCheck();
         Session::put('admin_name', null);
         Session::put('admin_id', null);
 

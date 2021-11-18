@@ -1,36 +1,51 @@
 @extends('admin_layout')
 @section('content')
-    <div class="col-lg-12">
-        <section class="panel">
-            <header class="panel-heading">
-                Sửa danh mục sản phẩm
-            </header>
-                <?php
-                $message = Session::get('message');
-                if($message){
-                    echo '<span class="text-alert">'.$message.'</span>';
-                    Session::put('message',null);
-                }
-                ?>
-            <div class="panel-body">
+      <div class="content">
+        <?php
+        $message = Session::get('message');
+        if($message){
+            echo '<span style="color: red; font-weight: bold; font-size: 20px;" class="text-alert">'.$message.'</span>';
+            Session::put('message',null);
+        }
+        ?>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card card-user">
+              <div class="card-header">
+                <h5 class="card-title" style="text-align: center">Thêm danh mục sản phẩm</h5>
+              </div>
+              <div class="card-body">
+                
                 @foreach($edit_category_product as $key => $edit_value)
-                <div class="position-center">
-                    <form role="form" action="{{URL::to('/update-category-product/ '.$edit_value->category_id)}}" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Tên danh mục</label>
-                        <input type="text" value="{{$edit_value->category_name}}" name="category_product_name" class="form-control" id="exampleInputEmail1" placeholder="Tên danh mục">
+                <form action="{{URL::to('/update-category-product/ '.$edit_value->category_id)}}" method="post">
+                @csrf
+                  <div class="row">
+                    <div style="margin: 0 auto; width: 60%">
+                      <div class="form-group">
+                        <label>Tên danh mục</label>
+                        <input type="text" value="{{$edit_value->category_name}}" name="category_product_name" class="form-control" placeholder="Tên danh mục">
+                      </div>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Mô tả danh mục</label>
-                        <textarea style="resize: none" rows = "6" name="category_product_desc"
-                        class="form-control" id="exampleInputPassword1" placeholder="Mô tả danh mục">{{$edit_value->category_desc}}</textarea>
+                  </div>
+                  <div class="row">
+                    <div style="margin: 0 auto; width: 60%">
+                      <div class="form-group">
+                        <label>Mô tả danh mục</label>
+                        <textarea name="category_product_desc" class="form-control textarea" placeholder="Mô tả danh mục">{{$edit_value->category_desc}}</textarea>
+                      </div>
                     </div>
-                    <button type="submit" name="update_category_product" class="btn btn-info">Cập nhật danh mục</button>
+                  </div>
+                  <div class="row">
+                    <div class="update ml-auto mr-auto">
+                      <button type="submit" name="add_category_product" class="btn btn-primary btn-round">Cập nhật danh mục</button>
+                    </div>
+                  </div>
                 </form>
-                </div>
                 @endforeach
+                
+              </div>
             </div>
-        </section>
-    </div>
+          </div>
+        </div>
+      </div>
 @endsection

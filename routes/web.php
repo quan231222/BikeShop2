@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu', 'HomeController@index');
 
+//Danh mục sản phẩm trang chủ
+Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProductController@show_category_home');
+Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandProductController@show_brand_home');
+
 //Xử Lý
 Route::get('/admin', 'AdminController@index');
 Route::get('/dashboard', 'AdminController@show_dashboard');
@@ -45,3 +49,15 @@ Route::get('/unactive-brand-product/{brand_product_id}', 'BrandProductController
 
 Route::post('/save-brand-product', 'BrandProductController@save_brand_product');
 Route::post('/update-brand-product/{brand_product_id}', 'BrandProductController@update_brand_product');
+
+//Sản phẩm
+Route::get('/add-product', 'ProductController@add_product');
+Route::get('/edit-product/{product_id}', 'ProductController@edit_product');
+Route::get('/delete-product/{product_id}', 'ProductController@delete_product');
+Route::get('/show-product', 'ProductController@show_product');
+
+Route::get('/active-product/{product_id}', 'ProductController@active_product');
+Route::get('/unactive-product/{product_id}', 'ProductController@unactive_product');
+
+Route::post('/save-product', 'ProductController@save_product');
+Route::post('/update-product/{product_id}', 'ProductController@update_product');

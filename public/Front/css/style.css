@@ -1524,7 +1524,7 @@ img.banner-bag {
     height: 121px;
     overflow: hidden;
 }
-single.htmlmedia="all"
+single.htmlmedia ="all"
 p {
     margin: 0 0 10px;
 }
@@ -1544,7 +1544,7 @@ p.m_text {
 .img-left-arrow {
 	padding: 0 0 0 14.5em;
 }
-}
+
 @media(max-width:320px){
 ul.support li a {
     font-size: 1em;

@@ -1,4 +1,4 @@
-@extends('welcome')
+@extends('user_layout')
 @section('content')
     <div class="container">
         <div class="shoes-grid">
@@ -105,20 +105,21 @@
         </a>
     </div>
     <div class="products">
-        <h5 class="latest-product">LATEST PRODUCTS</h5>
-        <a class="view-all" href="product.html">VIEW ALL<span> </span></a>
+        <h5 class="latest-product">Sản phẩm mới nhất</h5>
+        <a class="view-all" href="product.html">Hiển thị tất cả<span> </span></a>
     </div>
     <div class="product-left">
-        <div class="col-md-4 chain-grid">
-            <a href="single.html"><img class="img-responsive chain" src="{{ 'public/front/images/ch.jpg' }}"
+        
+        @foreach ($all_product as $key => $product)
+        <div class="col-md-3" style="border: 1px solid #ddd; border-radius:10px; margin: 33px">
+            <a href="single.html"><img class="img-responsive chain" src="{{ URL::to('public/uploads/product/'.$product->product_image) }}"
                     alt=" " /></a>
             <span class="star"> </span>
             <div class="grid-chain-bottom">
-                <h6><a href="single.html">Lorem ipsum dolor</a></h6>
+                <h6><a href="single.html">{{$product->product_name}}</a></h6>
                 <div class="star-price">
                     <div class="dolor-grid">
-                        <span class="actual">300$</span>
-                        <span class="reducedfrom">400$</span>
+                        <span class="actual">{{number_format($product->product_price)}} đ</span>
                         <span class="rating">
                             <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
                             <label for="rating-input-1-5" class="rating-star1"> </label>
@@ -132,11 +133,19 @@
                             <label for="rating-input-1-1" class="rating-star"> </label>
                         </span>
                     </div>
-                    <a class="now-get get-cart" href="#">ADD TO CART</a>
+                    <a class="now-get get-cart" href="#">Thêm vào giỏ hàng</a>           
+                    
                     <div class="clearfix"> </div>
                 </div>
             </div>
+            <div class="grid-chain-bottom" style="font-size: 15px">
+                <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>&emsp;
+                <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i>So sánh</a></li>
+            </div>
         </div>
+        @endforeach
+    
+
         <div class="clearfix"> </div>
     </div>
     <div class="products">
