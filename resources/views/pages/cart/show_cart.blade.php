@@ -14,43 +14,58 @@
     <div class="product-left">
         <div class="container">
             <div>
+                <?php
+                $content = Cart::content();
+                ?>
                 <table class="table" style="width: 800px">
                     <thead>
                         <tr>
-                            <td scope="col">Item</td>
-                            <td scope="col"></td>
-                            <td scope="col">Price</td>
-                            <td scope="col">Quantity</td>
-                            <td scope="col">Total</td>
+                            <td scope="col">Hình ảnh</td>
+                            <td scope="col">Mô tả</td>
+                            <td scope="col">Giá</td>
+                            <td scope="col">Số lượng</td>
+                            <td scope="col">Tổng tiền</td>
                             <td scope="col"></td>
                         </tr>
                     </thead>
                     <tbody>
+
+                        @foreach ($content as $v_content)
                         <tr>
                             <td>
-                                <a href=""><img src="{{URL::to('public/cart/images/cart/one.png')}}" alt=""></a>
+                                <a href=""><img src="{{ URL::to('public/uploads/product/'.$v_content->options->image) }}" width="100px" alt=""></a>
                             </td>
                             <td>
-                                <h4><a href="">Colorblock Scuba</a></h4>
+                                <h4><a href="">{{ $v_content->name }}</a></h4>
                                 <p>Web ID: 1089772</p>
                             </td>
                             <td>
-                                <p>$59</p>
+                                <p>{{ number_format($v_content->price, 0 , ',', '.'). ' đ'}}</p>
                             </td>
                             <td>
                                 <div>
-                                    <a href=""> + </a>
-                                    <input type="text" name="quantity" value="1" autocomplete="off" size="2">
-                                    <a href=""> - </a>
+                                    <form method="post" action="{{ URL::to('update-cart-qty') }}">
+                                        @csrf
+                                        <input type="number" name="cart_qty" value="{{ $v_content->qty }}" size="2" style="width:40px">
+                                        <input type="hidden" name="rowId_cart" value="{{ $v_content->rowId}}">
+                                        <input type="submit" name="update_qty" value="Cập nhật" class="btn btn-default btn-sm">
+                                    </form>
                                 </div>
                             </td>
                             <td>
-                                <p>$59</p>
+                                <p>
+                                    <?php
+                                        $subtotal = $v_content->price * $v_content->qty;
+                                        echo number_format($subtotal). ' đ';
+                                    ?>    
+                                </p>
                             </td>
                             <td>
-                                <a href=""><i class="fa fa-times"></i></a>
+                                <a href="{{ URL::to('/delete-pro-in-cart/'.$v_content->rowId) }}"><i class="fa fa-times"></i></a>
                             </td>
                         </tr>
+                        @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -58,14 +73,14 @@
 
         <hr><hr><hr>
 
-        <div class="container" style="width: 800px">
-            <div class="heading">
+        <div class="container" style="width: 800px;">
+            {{-- <div class="heading">
                 <h3>What would you like to do next?</h3>
                 <p>Choose if you have a discount code or reward points you want to use or would like to estimate your delivery cost.</p>
-            </div>
+            </div> --}}
             <div class="row">
-                <div class="col-sm-12" style="border: 1px solid; margin-bottom: 10px">
-                    <div>
+                {{-- <div class="col-sm-12" style="border: 1px solid; margin-bottom: 10px">
+                    <div style="padding: 20px">
                         <ul>
                             <li>
                                 <input type="checkbox">
@@ -114,17 +129,29 @@
                         <a class="btn btn-default update" href="">Get Quotes</a>
                         <a class="btn btn-default check_out" href="">Continue</a>
                     </div>
-                </div>
-                <div class="col-sm-12" style="border: 1px solid">
+                </div> --}}
+                <div class="col-sm-12" style="border: 1px solid; padding: 20px">
                     <div>
                         <ul>
-                            <li style="background-color: #E6E4DF; margin-bottom: 10px">Cart Sub Total <span>$59</span></li>
-                            <li style="background-color: #E6E4DF; margin-bottom: 10px">Eco Tax <span>$2</span></li>
-                            <li style="background-color: #E6E4DF; margin-bottom: 10px">Shipping Cost <span>Free</span></li>
-                            <li style="background-color: #E6E4DF">Total <span>$61</span></li>
+                            <li style="padding: 10px; background-color: #E6E4DF; margin-bottom: 10px">Tổng <span>{{ Cart::priceTotal(0, ',', '.'). ' đ' }}</span></li>
+                            <li style="padding: 10px; background-color: #E6E4DF; margin-bottom: 10px">Thuế <span>{{ Cart::tax(0, ',', '.'). ' đ' }}</span></li>
+                            <li style="padding: 10px; background-color: #E6E4DF; margin-bottom: 10px">Phí vận chuyển <span>Free</span></li>
+                            <li style="padding: 10px; background-color: #E6E4DF">Total <span>{{ Cart::total(0, ',', '.'). ' đ' }}</span></li>
                         </ul>
-                            <a class="btn btn-default update" href="">Update</a>
-                            <a class="btn btn-default check_out" href="">Check Out</a>
+                            {{-- <a class="btn btn-default update" href="">Update</a> --}}
+                            <?php 
+                            $customer_id = Session::get('customer_id');
+                            if($customer_id != null) {
+                                
+                        ?>
+                            <a class="btn btn-default check_out" href="{{ URL::to('/checkout') }}">Thanh toán</a>
+                        <?php
+                        }else{
+                        ?>
+                            <a class="btn btn-default check_out" href="{{ URL::to('/login-checkout') }}">Thanh toán</a>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>

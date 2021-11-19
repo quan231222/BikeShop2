@@ -96,12 +96,23 @@
                     <div class="clearfix"> </div>
                 </div>
                 <div class="header-bottom-right">
-                    <div class="account"><a href="login.html"><span> </span>Tài khoản của bạn</a></div>
+                    <div class="account"><a href="{{ URL::to('/login-checkout') }}"><span> </span>Tài khoản của bạn</a></div>
                     <ul class="login">
-                        <li><a href="login.html"><span> </span>Đăng nhập</a></li> |
-                        <li><a href="register.html">Đăng kí</a></li>
+                        <?php 
+                            $customer_id = Session::get('customer_id');
+                            if($customer_id != null) {
+                                
+                        ?>
+                            <li><a href="{{ URL::to('/logout-checkout') }}"><span> </span>Đăng xuất</a></li>
+                        <?php
+                        }else{
+                        ?>
+                            <li><a href="{{ URL::to('/login-checkout') }}"><span> </span>Đăng nhập</a></li>
+                        <?php
+                        }
+                        ?>
                     </ul>
-                    <div class="cart"><a href="#"><span> </span>Giỏ hàng</a></div>
+                    <div class="cart"><a href="{{ URL::to('/show-cart') }}"><span> </span>Giỏ hàng</a></div>
                     <div class="clearfix"> </div>
                 </div>
                 <div class="clearfix"> </div>

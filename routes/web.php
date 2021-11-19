@@ -66,3 +66,14 @@ Route::post('/update-product/{product_id}', 'ProductController@update_product');
 
 //Giỏ hàng
 Route::post('/save-cart', 'CartController@save_cart');
+Route::post('/update-cart-qty', 'CartController@update_cart_qty');
+Route::get('/show-cart', 'CartController@show_cart');
+Route::get('/delete-pro-in-cart/{rowId}', 'CartController@delete_pro_in_cart');
+
+
+//Thanh toán
+Route::get('/login-checkout', 'CheckoutController@login_checkout');
+Route::get('/signup-checkout', 'CheckoutController@signup_checkout');
+Route::post('/add-customer', 'CheckoutController@add_customer');
+Route::get('/checkout', 'CheckoutController@checkout');
+Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
