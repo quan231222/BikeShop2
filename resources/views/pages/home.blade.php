@@ -108,39 +108,27 @@
         <h5 class="latest-product">Sản phẩm mới nhất</h5>
         <a class="view-all" href="product.html">Hiển thị tất cả<span> </span></a>
     </div>
-    <div class="product-left">
+    <div class="product-left" >
         
         @foreach ($all_product as $key => $product)
         <div class="col-md-3" style="border: 1px solid #ddd; border-radius:10px; margin: 33px">
-            <a href="single.html"><img class="img-responsive chain" src="{{ URL::to('public/uploads/product/'.$product->product_image) }}"
+            <a href="{{ URL::to('/chi-tiet-san-pham/'.$product->product_id) }}"><img class="img-responsive chain" src="{{ URL::to('public/uploads/product/'.$product->product_image) }}"
                     alt=" " /></a>
             <span class="star"> </span>
             <div class="grid-chain-bottom">
-                <h6><a href="single.html">{{$product->product_name}}</a></h6>
+                <h6><a href="{{ URL::to('/chi-tiet-san-pham/'.$product->product_id) }}">{{$product->product_name}}</a></h6>
                 <div class="star-price">
                     <div class="dolor-grid">
                         <span class="actual">{{number_format($product->product_price)}} đ</span>
-                        <span class="rating">
-                            <input type="radio" class="rating-input" id="rating-input-1-5" name="rating-input-1">
-                            <label for="rating-input-1-5" class="rating-star1"> </label>
-                            <input type="radio" class="rating-input" id="rating-input-1-4" name="rating-input-1">
-                            <label for="rating-input-1-4" class="rating-star1"> </label>
-                            <input type="radio" class="rating-input" id="rating-input-1-3" name="rating-input-1">
-                            <label for="rating-input-1-3" class="rating-star"> </label>
-                            <input type="radio" class="rating-input" id="rating-input-1-2" name="rating-input-1">
-                            <label for="rating-input-1-2" class="rating-star"> </label>
-                            <input type="radio" class="rating-input" id="rating-input-1-1" name="rating-input-1">
-                            <label for="rating-input-1-1" class="rating-star"> </label>
-                        </span>
                     </div>
-                    <a class="now-get get-cart" href="#">Thêm vào giỏ hàng</a>           
+                    <a class="now-get get-cart" style="margin-top: 20px; font-size: 12px;" href="#">Thêm vào giỏ hàng</a>           
                     
                     <div class="clearfix"> </div>
                 </div>
             </div>
-            <div class="grid-chain-bottom" style="font-size: 15px">
-                <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i>Yêu thích</a></li>&emsp;
-                <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i>So sánh</a></li>
+            <div class="grid-chain-bottom" style="font-size: 12px">
+                <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i>  Yêu thích</a></li>
+                <li style="display: inline; float: right" type="none"><a href=""><i class="fa fa-plus-square"></i>  So sánh</a></li>
             </div>
         </div>
         @endforeach

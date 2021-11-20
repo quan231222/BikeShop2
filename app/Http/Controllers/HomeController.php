@@ -25,4 +25,18 @@ class HomeController extends Controller
 
         return view('pages.home')->with('category', $cate_product)->with('brand', $brand_product)->with('all_product', $all_product);
     }
+
+    public function search(Request $request)
+    {
+        $keyworks = $request->keywords_search;
+        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'asc')->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderBy('brand_id', 'asc')->get();
+
+        $search_result = DB::table('tbl_product')->where('product_name', 'like', '%' . $keyworks . '%')->get();
+
+        return view('pages.sanpham.search')
+            ->with('category', $cate_product)
+            ->with('brand', $brand_product)
+            ->with('search_result', $search_result);
+    }
 }

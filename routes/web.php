@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 //Giao diện
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu', 'HomeController@index');
+Route::post('/tim-kiem', 'HomeController@search');
 
 //Danh mục sản phẩm trang chủ
 Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProductController@show_category_home');
@@ -73,7 +74,11 @@ Route::get('/delete-pro-in-cart/{rowId}', 'CartController@delete_pro_in_cart');
 
 //Thanh toán
 Route::get('/login-checkout', 'CheckoutController@login_checkout');
+Route::get('/logout-checkout', 'CheckoutController@logout_checkout');
 Route::get('/signup-checkout', 'CheckoutController@signup_checkout');
 Route::post('/add-customer', 'CheckoutController@add_customer');
+Route::post('/login-customer', 'CheckoutController@login_customer');
+Route::post('/order-save', 'CheckoutController@order_save');
 Route::get('/checkout', 'CheckoutController@checkout');
+Route::get('/payment', 'CheckoutController@payment');
 Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');

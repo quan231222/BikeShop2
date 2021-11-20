@@ -12,7 +12,8 @@
     <!---->
         <div class=" login-right">
            <h3>Đăng nhập</h3>
-         <form>
+         <form action="{{ URL::to('login-customer') }}" method="post">
+           @csrf
            <div>
              <span>Tài khoản  <label style="color:red">*</label></span>
              <input name="user_account" type="text"> 

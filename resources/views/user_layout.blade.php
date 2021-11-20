@@ -89,14 +89,32 @@
                         <a href="{{ URL::to('/trang-chu')}}"><img src="{{asset('public/front/images/logo.png')}}" alt=" " /></a>
                     </div>
                     <div class="search">
-                        <input type="text" value="" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
-                        <input type="submit" value="SEARCH">
-
+                        <form action="{{ URL::to('/tim-kiem') }}" method="post">
+                            @csrf
+                        <input type="text" name="keywords_search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
+                        <input type="submit" name="search_btn" value="Tìm kiếm">
+                        </form>
                     </div>
                     <div class="clearfix"> </div>
                 </div>
                 <div class="header-bottom-right">
-                    <div class="account"><a href="{{ URL::to('/login-checkout') }}"><span> </span>Tài khoản của bạn</a></div>
+                    <?php
+                        $customer_id = Session::get('customer_id');
+                        $shipping_id = Session::get('shipping_id');
+                        if($customer_id != null && $shipping_id == null){
+                    ?>
+                    <div class="account" style="width: 150px"><a href="{{ URL::to('/checkout') }}"><span> </span>Thanh toán</a></div>
+                    <?php
+                        }elseif($customer_id != null && $shipping_id != null){
+                    ?>
+                    <div class="account" style="width: 150px"><a href="{{ URL::to('/payment') }}"><span> </span>Thanh toán</a></div>
+                    <?php
+                        }else{
+                    ?>
+                    <div class="account" style="width: 150px"><a href="{{ URL::to('/login-checkout') }}"><span> </span>Thanh toán</a></div>
+                    <?php
+                        }
+                    ?>
                     <ul class="login">
                         <?php 
                             $customer_id = Session::get('customer_id');
