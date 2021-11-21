@@ -12,6 +12,16 @@ session_start();
 
 class CheckoutController extends Controller
 {
+    public function AuthCheck()
+    {
+        $admin_id = Session::get('admin_id');
+        if ($admin_id) {
+            return Redirect::to('dashboard');
+        } else {
+            return Redirect::to('admin')->send();
+        }
+    }
+
     public function login_checkout()
     {
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
@@ -107,7 +117,11 @@ class CheckoutController extends Controller
             DB::table('tbl_order_details')->insert($order_details_data);
         }
         if ($data['payment_method'] == 1) {
-            echo 'Thanh toán khi nhận hàng';
+            Cart::destroy();
+            $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
+            $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+
+            return view('pages.checkout.tienmat')->with('category', $cate_product)->with('brand', $brand_product);
         } elseif ($data['payment_method'] == 1) {
             echo 'Thanh toán qua ví điện tử';
         } else {
@@ -120,7 +134,7 @@ class CheckoutController extends Controller
     public function logout_checkout()
     {
         Session::flush();
-        return Redirect::to('/login-checkout');
+        return Redirect::to('/');
     }
 
     public function login_customer(Request $request)
@@ -136,5 +150,37 @@ class CheckoutController extends Controller
         } else {
             return Redirect::to('/login-checkout');
         }
+    }
+
+    public function manage_order()
+    {
+        $this->AuthCheck();
+        $all_order = DB::table('tbl_order')
+            ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
+            ->select('tbl_order.*', 'tbl_customers.customer_name')
+            ->orderBy('tbl_order.order_id', 'asc')->get();
+        $manager_order = view('admin.manage_order')->with('all_order', $all_order);
+
+        return view('admin_layout')->with('admin.manage_order', $manager_order);
+    }
+
+    public function view_order($order_id)
+    {
+        $this->AuthCheck();
+        $order_by_id = DB::table('tbl_order')
+            ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
+            ->join('tbl_shipping', 'tbl_order.shipping_id', '=', 'tbl_shipping.shipping_id')
+            ->join('tbl_order_details', 'tbl_order.order_id', '=', 'tbl_order_details.order_id')
+            ->select('tbl_order.*', 'tbl_customers.*', 'tbl_shipping.*', 'tbl_order_details.*')
+            ->where('tbl_order.order_id', $order_id)
+            ->first();
+
+        $product = DB::table('tbl_order_details')
+            ->join('tbl_product', 'tbl_order_details.product_id', '=', 'tbl_product.product_id')
+            ->where('tbl_order_details.order_id', $order_id)->orderBy('category_id', 'asc')->get();
+
+        $manager_order_by_id = view('admin.view_order')->with('order_by_id', $order_by_id)->with('product', $product);
+
+        return view('admin_layout')->with('admin.view_order', $manager_order_by_id);
     }
 }

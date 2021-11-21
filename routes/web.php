@@ -22,7 +22,7 @@ Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProductController@show_c
 Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandProductController@show_brand_home');
 Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@detail_product');
 
-//Xử Lý
+//Quản trị
 Route::get('/admin', 'AdminController@index');
 Route::get('/dashboard', 'AdminController@show_dashboard');
 Route::post('/admin-dashboard', 'AdminController@dashboard');
@@ -82,3 +82,8 @@ Route::post('/order-save', 'CheckoutController@order_save');
 Route::get('/checkout', 'CheckoutController@checkout');
 Route::get('/payment', 'CheckoutController@payment');
 Route::post('/save-checkout-customer', 'CheckoutController@save_checkout_customer');
+
+
+//Đơn hàng
+Route::get('/manage-order', 'CheckoutController@manage_order');
+Route::get('/view-order/{order_id}', 'CheckoutController@view_order');

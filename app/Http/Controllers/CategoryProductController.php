@@ -30,7 +30,7 @@ class CategoryProductController extends Controller
     public function show_category_product()
     {
         $this->AuthCheck();
-        $all_category_product = DB::table('tbl_category_product')->get();
+        $all_category_product = DB::table('tbl_category_product')->paginate(10);
         $manager_category_product = view('admin.show_category_product')->with('all_category_product', $all_category_product);
 
         return view('admin_layout')->with('admin.show_category_product', $manager_category_product);
@@ -104,8 +104,14 @@ class CategoryProductController extends Controller
     //Xử lý giao diện
     public function show_category_home($category_id)
     {
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderBy('brand_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->where('category_status', '1')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->where('brand_status', '1')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
         $category_by_id = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_product.category_id', '=', 'tbl_category_product.category_id')

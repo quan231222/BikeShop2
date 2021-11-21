@@ -29,7 +29,16 @@ class AdminController extends Controller
     public function show_dashboard()
     {
         $this->AuthCheck();
-        return view('admin.dashboard');
+        $category = DB::table('tbl_category_product')->count();
+        $brand = DB::table('tbl_brand')->count();
+        $product = DB::table('tbl_product')->count();
+        $order = DB::table('tbl_order')->count();
+
+        return view('admin.dashboard')
+            ->with('category', $category)
+            ->with('brand', $brand)
+            ->with('product', $product)
+            ->with('order', $order);
     }
 
     public function dashboard(Request $request)

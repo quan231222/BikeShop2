@@ -6,8 +6,8 @@
     <link href="{{ asset('public/front/css/bootstrap.css') }}" rel="stylesheet" type="text/css" media="all" />
     <!--theme-style-->
     <link href="{{ asset('public/back/css/font-awesome.css') }}" rel="stylesheet">
-    <link href="{{asset('public/front/css/style.css')}}" rel="stylesheet" type="text/css" media="all" />
-    <link rel="stylesheet" href="{{asset('public/front/css/etalage.css')}}" type="text/css" media="all" />
+    <link href="{{ asset('public/front/css/style.css') }}" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="{{ asset('public/front/css/etalage.css') }}" type="text/css" media="all" />
     <!--//theme-style-->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="application/x-javascript">
@@ -22,25 +22,26 @@
     <!--fonts-->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
     <!--//fonts-->
-    <script src="{{asset('public/front/js/jquery.min.js')}}"></script>
+    <script src="{{ asset('public/front/js/jquery.min.js') }}"></script>
     <!--script-->
-    <script src="{{asset('publoc/front/js/jquery.etalage.min.js')}}"></script>
+    <script src="{{ asset('publoc/front/js/jquery.etalage.min.js') }}"></script>
     <script>
-			jQuery(document).ready(function($){
+        jQuery(document).ready(function($) {
 
-				$('#etalage').etalage({
-					thumb_image_width: 300,
-					thumb_image_height: 400,
-					source_image_width: 900,
-					source_image_height: 1200,
-					show_hint: true,
-					click_callback: function(image_anchor, instance_id){
-						alert('Callback example:\nYou clicked on an image with the anchor: "'+image_anchor+'"\n(in Etalage instance: "'+instance_id+'")');
-					}
-				});
+            $('#etalage').etalage({
+                thumb_image_width: 300,
+                thumb_image_height: 400,
+                source_image_width: 900,
+                source_image_height: 1200,
+                show_hint: true,
+                click_callback: function(image_anchor, instance_id) {
+                    alert('Callback example:\nYou clicked on an image with the anchor: "' +
+                        image_anchor + '"\n(in Etalage instance: "' + instance_id + '")');
+                }
+            });
 
-			});
-		</script>
+        });
+    </script>
 </head>
 
 <body>
@@ -48,51 +49,54 @@
     <div class="header">
         <div class="top-header">
             <div class="container">
-                <div class="top-header-left">
-                    <ul class="support">
-                        <li><a href="#"><label> </label></a></li>
-                        <li><a href="#">24x7 live<span class="live"> support</span></a></li>
-                    </ul>
-                    <ul class="support">
-                        <li class="van"><a href="#"><label> </label></a></li>
-                        <li><a href="#">Free shipping <span class="live">on order over 500</span></a></li>
-                    </ul>
-                    <div class="clearfix"> </div>
-                </div>
                 <div class="top-header-right">
-                    <div class="down-top">
-                        <select class="in-drop">
-                            <option value="English" class="in-of">English</option>
-                            <option value="Japanese" class="in-of">Japanese</option>
-                            <option value="French" class="in-of">French</option>
-                            <option value="German" class="in-of">German</option>
-                        </select>
-                    </div>
-                    <div class="down-top top-down">
-                        <select class="in-drop">
+                    <?php 
+                        $customer_id = Session::get('customer_id');
+                        if($customer_id != null) {    
+                    ?>
+                    <span style="background: #fff; padding: 5px; border: 1px solid #f97e76; border-radius: 10px;">
+                        <a href="{{ URL::to('/logout-checkout') }}" style="text-decoration: none">Đăng xuất</a>
+                    </span>
+                    <?php
+                    }else{
+                    ?>
+                    <span style="background: #fff; padding: 5px; border: 1px solid #f97e76; border-radius: 10px;">
+                        <a href="{{ URL::to('/login-checkout') }}" style="text-decoration: none">Đăng nhập</a>
+                    </span>
+                    <?php
+                    }
+                    ?>
 
-                            <option value="Dollar" class="in-of">Dollar</option>
-                            <option value="Yen" class="in-of">Yen</option>
-                            <option value="Euro" class="in-of">Euro</option>
-                        </select>
-                    </div>
+                    <?php 
+                        $customer_id = Session::get('customer_id');
+                        if($customer_id == null) {  
+                    ?>
+                    <span
+                        style="background: #fff; padding: 5px; border: 1px solid #f97e76; border-radius: 10px; margin-left: 20px">
+                        <a href="{{ URL::to('/signup-checkout') }}" style="text-decoration: none">Đăng kí</a>
+                    </span>
+                    <?php
+                    }
+                    ?>
+
                     <!---->
-                    <div class="clearfix"> </div>
                 </div>
-                <div class="clearfix"> </div>
+
             </div>
         </div>
         <div class="bottom-header">
             <div class="container">
                 <div class="header-bottom-left">
                     <div class="logo">
-                        <a href="{{ URL::to('/trang-chu')}}"><img src="{{asset('public/front/images/logo.png')}}" alt=" " /></a>
+                        <a href="{{ URL::to('/trang-chu') }}"><img
+                                src="{{ asset('public/front/images/logo.png') }}" alt=" " /></a>
                     </div>
                     <div class="search">
                         <form action="{{ URL::to('/tim-kiem') }}" method="post">
                             @csrf
-                        <input type="text" name="keywords_search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '';}">
-                        <input type="submit" name="search_btn" value="Tìm kiếm">
+                            <input type="text" name="keywords_search" onfocus="this.value = '';"
+                                onblur="if (this.value == '') {this.value = '';}">
+                            <input type="submit" name="search_btn" value="Tìm kiếm">
                         </form>
                     </div>
                     <div class="clearfix"> </div>
@@ -103,34 +107,25 @@
                         $shipping_id = Session::get('shipping_id');
                         if($customer_id != null && $shipping_id == null){
                     ?>
-                    <div class="account" style="width: 150px"><a href="{{ URL::to('/checkout') }}"><span> </span>Thanh toán</a></div>
+                    <div class="account" style="width: 150px; margin-left: 170px;"><a
+                            href="{{ URL::to('/checkout') }}"><span>
+                            </span>Thanh toán</a></div>
                     <?php
                         }elseif($customer_id != null && $shipping_id != null){
                     ?>
-                    <div class="account" style="width: 150px"><a href="{{ URL::to('/payment') }}"><span> </span>Thanh toán</a></div>
+                    <div class="account" style="width: 150px; margin-left: 170px;"><a
+                            href="{{ URL::to('/payment') }}"><span>
+                            </span>Thanh toán</a></div>
                     <?php
                         }else{
                     ?>
-                    <div class="account" style="width: 150px"><a href="{{ URL::to('/login-checkout') }}"><span> </span>Thanh toán</a></div>
+                    <div class="account" style="width: 150px; margin-left: 170px;"><a
+                            href="{{ URL::to('/login-checkout') }}"><span> </span>Thanh toán</a></div>
                     <?php
                         }
                     ?>
-                    <ul class="login">
-                        <?php 
-                            $customer_id = Session::get('customer_id');
-                            if($customer_id != null) {
-                                
-                        ?>
-                            <li><a href="{{ URL::to('/logout-checkout') }}"><span> </span>Đăng xuất</a></li>
-                        <?php
-                        }else{
-                        ?>
-                            <li><a href="{{ URL::to('/login-checkout') }}"><span> </span>Đăng nhập</a></li>
-                        <?php
-                        }
-                        ?>
-                    </ul>
-                    <div class="cart"><a href="{{ URL::to('/show-cart') }}"><span> </span>Giỏ hàng</a></div>
+                    <div class="cart"><a href="{{ URL::to('/show-cart') }}"><span> </span>Giỏ hàng</a>
+                    </div>
                     <div class="clearfix"> </div>
                 </div>
                 <div class="clearfix"> </div>
@@ -156,32 +151,27 @@
         <div class=" chain-grid menu-chain">
             <h3 class="cate">Danh mục sản phẩm</h3>
             <ul class="menu">
-                @foreach($category as $key => $cate)
+                @foreach ($category as $key => $cate)
                     <ul class="kid-menu">
-                        <li><a href="{{URL::to('/danh-muc-san-pham/'.$cate->category_id)}}">{{ $cate->category_name }}</a></li>
-                    </ul>
-                @endforeach
-            </ul>
-        </div>
-        
-        <div class=" chain-grid menu-chain">
-            <h3 class="cate">Thương hiệu sản phẩm</h3>
-            <ul class="menu">
-                @foreach($brand as $key => $brand)
-                    <ul class="kid-menu">
-                        <li><a href="{{URL::to('/thuong-hieu-san-pham/'.$brand->brand_id)}}">{{ $brand->brand_name }}</a></li>
+                        <li><a
+                                href="{{ URL::to('/danh-muc-san-pham/' . $cate->category_id) }}">{{ $cate->category_name }}</a>
+                        </li>
                     </ul>
                 @endforeach
             </ul>
         </div>
 
         <div class=" chain-grid menu-chain">
-            <a href="single.html"><img class="img-responsive chain" src="{{asset('public/front/images/wat.jpg')}}" alt=" " /></a>
-            <div class="grid-chain-bottom chain-watch">
-                <span class="actual dolor-left-grid">300$</span>
-                <span class="reducedfrom">500$</span>
-                <h6><a href="single.html">Lorem ipsum dolor</a></h6>
-            </div>
+            <h3 class="cate">Thương hiệu sản phẩm</h3>
+            <ul class="menu">
+                @foreach ($brand as $key => $brand)
+                    <ul class="kid-menu">
+                        <li><a
+                                href="{{ URL::to('/thuong-hieu-san-pham/' . $brand->brand_id) }}">{{ $brand->brand_name }}</a>
+                        </li>
+                    </ul>
+                @endforeach
+            </ul>
         </div>
         <a class="view-all all-product" href="product.html">VIEW ALL PRODUCTS<span> </span></a>
     </div>
@@ -217,7 +207,8 @@
                     <h6>NEWS-LETTER</h6>
                     <div class="sub-left-right">
                         <form>
-                            <input type="text" value="Enter email here" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Enter email here';}" />
+                            <input type="text" value="Enter email here" onfocus="this.value = '';"
+                                onblur="if (this.value == '') {this.value = 'Enter email here';}" />
                             <input type="submit" value="SUBSCRIBE" />
                         </form>
                     </div>

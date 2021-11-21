@@ -1,54 +1,97 @@
 <!DOCTYPE html>
+<html lang="en">
+
 <head>
-<title>Trang quản trị</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="keywords" content="Visitors Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
-Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
-<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-<!-- bootstrap-css -->
-<link rel="stylesheet" href="{{asset('public/back/css/bootstrap.min.css')}}" >
-<!-- //bootstrap-css -->
-<!-- Custom CSS -->
-<link href="{{asset('public/back/css/style.css')}}" rel='stylesheet' type='text/css' />
-<link href="{{asset('public/back/css/style-responsive.css')}}" rel="stylesheet"/>
-<!-- font CSS -->
-<link href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic' rel='stylesheet' type='text/css'>
-<!-- font-awesome icons -->
-<link rel="stylesheet" href="{{asset('public/back/css/font.css')}}" type="text/css"/>
-<link href="{{asset('public/back/css/font-awesome.css')}}" rel="stylesheet"> 
-<!-- //font-awesome icons -->
-<script src="{{asset('public/back/js/jquery2.0.3.min.js')}}"></script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Trang quản trị - Đăng nhập</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{{ asset('public/back2/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{{ asset('public/back2/css/sb-admin-2.min.css') }}" rel="stylesheet">
+
 </head>
-<body>
-<div class="log-w3">
-<div class="w3layouts-main">
-	<h2>Đăng nhập</h2>
-	<?php
-	$message = Session::get('message');
-	if($message){
-		echo '<span class="text-alert">'.$message.'</span>';
-		Session::put('message',null);
-	}
-	?>
-		<form action="{{URL::to('/admin-dashboard')}}" method="post">
-			@csrf
-			<input type="text" class="ggg" name="admin_email" placeholder="Tài khoản" required="">
-			<input type="password" class="ggg" name="admin_password" placeholder="Mật khẩu" required="">
-			<span><input type="checkbox" />Nhớ đăng nhập</span>
-			<h6><a href="#">Quên mật khẩu?</a></h6>
-				<div class="clearfix"></div>
-				<input type="submit" value="Đăng nhập" name="login">
-		</form>
-		{{-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> --}}
-</div>
-</div>
-<script src="{{asset('public/back/js/bootstrap.js')}}"></script>
-<script src="{{asset('public/back/js/jquery.dcjqaccordion.2.7.js')}}"></script>
-<script src="{{asset('public/back/js/scripts.js')}}"></script>
-<script src="{{asset('public/back/js/jquery.slimscroll.js')}}"></script>
-<script src="{{asset('public/back/js/jquery.nicescroll.js')}}"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-<script src="{{asset('public/back/js/jquery.scrollTo.js')}}"></script>
+
+<body class="bg-gradient-primary">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9" style="margin-top: 75px">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image" style="height:500px"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Đăng nhập</h1>
+                                        <?php
+                                        $message = Session::get('message');
+                                        if ($message) {
+                                            echo '<span class="text-alert">' . $message . '</span>';
+                                            Session::put('message', null);
+                                        }
+                                        ?>
+                                    </div>
+                                    <form action="{{ URL::to('/admin-dashboard') }}" method="post"
+                                        class="user">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="email" name="admin_email"
+                                                class="form-control form-control-user" placeholder="Nhập tài khoản"
+                                                required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="password" name="admin_password"
+                                                class="form-control form-control-user" placeholder="Nhập mật khẩu"
+                                                required>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <label class="custom-control-label" for="customCheck">Nhớ đăng
+                                                    nhập</label>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <input type="submit" value="Đăng nhập"
+                                                class="btn btn-primary btn-user btn-block">
+                                        </div>
+                                    </form>
+                                    <hr>
+                                    <div class="text-center">
+                                        <a class="small" href="forgot-password.html">Quên mật khẩu?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('public/back2/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('public/back2/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{ asset('public/back2/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{ asset('public/back2/js/sb-admin-2.min.js') }}"></script>
+
 </body>
+
 </html>
