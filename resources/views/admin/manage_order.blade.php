@@ -81,7 +81,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Danh sách đơn hàng</h6>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" style="overflow: hidden;">
                     <div id="dataTable_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-sm-12">

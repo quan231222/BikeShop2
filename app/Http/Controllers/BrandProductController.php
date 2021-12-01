@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\BrandExcelImports;
+use App\Exports\BrandExcelExports;
 
 session_start();
 
@@ -24,16 +27,16 @@ class BrandProductController extends Controller
     public function add_brand_product()
     {
         $this->AuthCheck();
-        return view('admin.add_brand_product');
+        return view('admin.brand.add_brand_product');
     }
 
     public function show_brand_product()
     {
         $this->AuthCheck();
         $all_brand_product = DB::table('tbl_brand')->paginate(10);
-        $manager_brand_product = view('admin.show_brand_product')->with('all_brand_product', $all_brand_product);
+        $manager_brand_product = view('admin.brand.show_brand_product')->with('all_brand_product', $all_brand_product);
 
-        return view('admin_layout')->with('admin.show_brand_product', $manager_brand_product);
+        return view('admin_layout')->with('admin.brand.show_brand_product', $manager_brand_product);
     }
 
     public function save_brand_product(Request $request)
@@ -72,9 +75,9 @@ class BrandProductController extends Controller
     {
         $this->AuthCheck();
         $edit_brand_product = DB::table('tbl_brand')->where('brand_id', $brand_product_id)->get();
-        $manager_brand_product = view('admin.edit_brand_product')->with('edit_brand_product', $edit_brand_product);
+        $manager_brand_product = view('admin.brand.edit_brand_product')->with('edit_brand_product', $edit_brand_product);
 
-        return view('admin_layout')->with('admin.edit_brand_product', $manager_brand_product);
+        return view('admin_layout')->with('admin.brand.edit_brand_product', $manager_brand_product);
     }
 
     public function update_brand_product(Request $request, $brand_product_id)
@@ -97,6 +100,20 @@ class BrandProductController extends Controller
         Session::put('message', 'Xoá thương hiệu sản phẩm thành công');
 
         return Redirect::to('show-brand-product');
+    }
+
+    //Nhập xuất excel
+    public function import_excel(Request $request)
+    {
+        $path = $request->file('file')->getRealPath();
+        Excel::import(new BrandExcelImports, $path);
+
+        return back();
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new BrandExcelExports, 'Brand.xlsx');
     }
 
     //Xử lý giao diện

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Coupon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -53,5 +54,39 @@ class CartController extends Controller
         Cart::update($rowId, $qty);
 
         return Redirect::to('/show-cart');
+    }
+
+    public function check_coupon(Request $request)
+    {
+        $data = $request->all();
+        $coupon = Coupon::where('coupon_code', $data['coupon'])->first();
+        if ($coupon) {
+            $count_coupon = $coupon->count();
+            if ($count_coupon > 0) {
+                $coupon_session = Session::get('coupon');
+                if ($coupon_session == true) {
+                    $is_availabe = 0;
+                    if ($is_availabe == 0) {
+                        $cou[] = array(
+                            'coupon_code' => $coupon->coupon_code,
+                            'coupon_type' => $coupon->coupon_type,
+                            'coupon_value' => $coupon->coupon_value,
+                        );
+                        Session::put('coupon', $cou);
+                    }
+                } else {
+                    $cou[] = array(
+                        'coupon_code' => $coupon->coupon_code,
+                        'coupon_type' => $coupon->coupon_type,
+                        'coupon_value' => $coupon->coupon_value,
+                    );
+                    Session::put('coupon', $cou);
+                }
+                Session::save();
+                return redirect()->back()->with('message', 'Thêm mã giảm giá thành công');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Thêm mã giảm giá bạn nhập không tồn tại');
+        }
     }
 }

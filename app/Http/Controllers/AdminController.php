@@ -33,12 +33,16 @@ class AdminController extends Controller
         $brand = DB::table('tbl_brand')->count();
         $product = DB::table('tbl_product')->count();
         $order = DB::table('tbl_order')->count();
+        $slider = DB::table('tbl_slider')->count();
+        $cou = DB::table('tbl_coupon')->count();
 
         return view('admin.dashboard')
             ->with('category', $category)
             ->with('brand', $brand)
             ->with('product', $product)
-            ->with('order', $order);
+            ->with('order', $order)
+            ->with('slider', $slider)
+            ->with('cou', $cou);
     }
 
     public function dashboard(Request $request)

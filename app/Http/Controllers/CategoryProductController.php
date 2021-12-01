@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use App\Imports\ExcelImports;
+use App\Exports\ExcelExports;
+use CategoryProduct;
+use Maatwebsite\Excel\Facades\Excel;
 
 session_start();
 
@@ -24,16 +28,16 @@ class CategoryProductController extends Controller
     public function add_category_product()
     {
         $this->AuthCheck();
-        return view('admin.add_category_product');
+        return view('admin.category_product.add_category_product');
     }
 
     public function show_category_product()
     {
         $this->AuthCheck();
         $all_category_product = DB::table('tbl_category_product')->paginate(10);
-        $manager_category_product = view('admin.show_category_product')->with('all_category_product', $all_category_product);
+        $manager_category_product = view('admin.category_product.show_category_product')->with('all_category_product', $all_category_product);
 
-        return view('admin_layout')->with('admin.show_category_product', $manager_category_product);
+        return view('admin_layout')->with('admin.category_product.show_category_product', $manager_category_product);
     }
 
     public function save_category_product(Request $request)
@@ -72,9 +76,9 @@ class CategoryProductController extends Controller
     {
         $this->AuthCheck();
         $edit_category_product = DB::table('tbl_category_product')->where('category_id', $category_product_id)->get();
-        $manager_category_product = view('admin.edit_category_product')->with('edit_category_product', $edit_category_product);
+        $manager_category_product = view('admin.category_product.edit_category_product')->with('edit_category_product', $edit_category_product);
 
-        return view('admin_layout')->with('admin.edit_category_product', $manager_category_product);
+        return view('admin_layout')->with('admin.category_product.edit_category_product', $manager_category_product);
     }
 
     public function update_category_product(Request $request, $category_product_id)
@@ -99,6 +103,19 @@ class CategoryProductController extends Controller
         return Redirect::to('show-category-product');
     }
 
+    //Nhập xuất excel
+    public function import_excel(Request $request)
+    {
+        $path = $request->file('file')->getRealPath();
+        Excel::import(new ExcelImports, $path);
+
+        return back();
+    }
+
+    public function export_excel()
+    {
+        return Excel::download(new ExcelExports, 'CategoryProduct.xlsx');
+    }
 
 
     //Xử lý giao diện

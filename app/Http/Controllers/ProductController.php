@@ -27,7 +27,7 @@ class ProductController extends Controller
         $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
         $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
 
-        return view('admin.add_product')->with('cate_product', $cate_product)->with('brand_product', $brand_product);
+        return view('admin.product.add_product')->with('cate_product', $cate_product)->with('brand_product', $brand_product);
     }
 
     public function show_product()
@@ -37,9 +37,9 @@ class ProductController extends Controller
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
             ->join('tbl_brand', 'tbl_brand.brand_id', '=', 'tbl_product.brand_id')
             ->orderBy('tbl_product.product_id', 'asc')->paginate(10);
-        $manager_product = view('admin.show_product')->with('all_product', $all_product);
+        $manager_product = view('admin.product.show_product')->with('all_product', $all_product);
 
-        return view('admin_layout')->with('admin.show_product', $manager_product);
+        return view('admin_layout')->with('admin.product.show_product', $manager_product);
     }
 
     public function save_product(Request $request)
@@ -99,10 +99,10 @@ class ProductController extends Controller
 
         $edit_product = DB::table('tbl_product')->where('product_id', $product_id)->get();
 
-        $manager_product = view('admin.edit_product')->with('edit_product', $edit_product)->with('cate_product', $cate_product)
+        $manager_product = view('admin.product.edit_product')->with('edit_product', $edit_product)->with('cate_product', $cate_product)
             ->with('brand_product', $brand_product);
 
-        return view('admin_layout')->with('admin.edit_product', $manager_product);
+        return view('admin_layout')->with('admin.product.edit_product', $manager_product);
     }
 
     public function update_product(Request $request, $product_id)

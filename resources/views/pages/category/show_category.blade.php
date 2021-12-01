@@ -4,12 +4,18 @@
         <div class="shoes-grid">
             <a href="single.html">
                 <div class="wrap-in">
-                    <div class="wmuSlider example1 slide-grid">
+                    <div class="wmuSlider example1 slide-grid" style="display: none">
             </a>
         </div>
     </div>
     </a>
     <!---->
+    <ol class="breadcrumb" style="margin-top:29px">
+        <li><a href="{{ URL::to('/trang-chu') }}">Trang chủ</a></li>
+        @foreach ($category_name as $key => $name)
+            <li class="active">{{ $name->category_name }}</li>
+        @endforeach
+    </ol>
     <div class="products">
         @foreach ($category_name as $key => $name)
             <h5 class="latest-product">{{ $name->category_name }}</h5>
