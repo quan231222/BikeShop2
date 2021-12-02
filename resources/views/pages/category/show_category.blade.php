@@ -35,16 +35,11 @@
                         <div class="dolor-grid">
                             <span class="actual">{{ number_format($product->product_price) }} đ</span>
                         </div>
-                        <a class="now-get get-cart" style="margin-top: 20px; font-size: 12px;" href="#">Thêm vào giỏ
-                            hàng</a>
 
                         <div class="clearfix"> </div>
                     </div>
                 </div>
                 <div class="grid-chain-bottom" style="font-size: 12px">
-                    <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i> Yêu thích</a></li>
-                    <li style="display: inline; float: right" type="none"><a href=""><i class="fa fa-plus-square"></i> So
-                            sánh</a></li>
                 </div>
             </div>
         @endforeach

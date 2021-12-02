@@ -260,9 +260,6 @@
                             <a href="{{ URL::to('/chi-tiet-san-pham/' . $value->product_id) }}"
                                 style="font-size: 20px">{{ $value->product_name }}</a>
                             <p>{{ number_format($value->product_price) }} đ</p>
-                            <input type="button" style="height: 30px; font-size: 10px; 
-                            background-color: #323a45; color: #fff;
-                            border-radius: 10px" value="Thêm vào giỏ hàng">
                         </div>
                     </li>
                 @endforeach

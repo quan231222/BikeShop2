@@ -38,9 +38,7 @@
                     </div>
                 </div>
                 <div class="grid-chain-bottom" style="font-size: 12px">
-                    <li style="display: inline;" type="none"><a href=""><i class="fa fa-plus-square"></i> Yêu thích</a></li>
-                    <li style="display: inline; float: right" type="none"><a href=""><i class="fa fa-plus-square"></i> So
-                            sánh</a></li>
+
                 </div>
             </div>
         @endforeach
