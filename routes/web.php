@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 //Giao diện
 Route::get('/', 'HomeController@index');
 Route::get('/trang-chu', 'HomeController@index');
+Route::get('/contact', 'HomeController@contact');
+Route::get('/about', 'HomeController@about');
 Route::post('/tim-kiem', 'HomeController@search');
 Route::get('/all-product', 'HomeController@all_product');
 
@@ -22,6 +24,14 @@ Route::get('/all-product', 'HomeController@all_product');
 Route::get('/danh-muc-san-pham/{category_id}', 'CategoryProductController@show_category_home');
 Route::get('/thuong-hieu-san-pham/{brand_id}', 'BrandProductController@show_brand_home');
 Route::get('/chi-tiet-san-pham/{product_id}', 'ProductController@detail_product');
+
+//Tin tức
+Route::get('/danh-muc-bai-viet/{cate_post_id}', 'PostController@danh_muc_bai_viet');
+Route::get('/bai-viet/{post_id}', 'PostController@bai_viet');
+
+//Send mail
+Route::get('/send-mail', 'HomeController@send_mail');
+
 
 //Quản trị
 Route::get('/admin', 'AdminController@index');
@@ -110,3 +120,28 @@ Route::post('/save-slider', 'SliderController@save_slider');
 Route::get('/active-slider/{slider_id}', 'SliderController@active_slider');
 Route::get('/unactive-slider/{slider_id}', 'SliderController@unactive_slider');
 Route::get('/delete-slider/{slider_id}', 'SliderController@delete_slider');
+
+
+//Danh mục bài viết
+Route::get('/add-cate-post', 'CategoryPostController@add_cate_post');
+Route::get('/show-cate-post', 'CategoryPostController@show_cate_post');
+Route::get('/edit-cate-post/{cate_post_id}', 'CategoryPostController@edit_cate_post');
+Route::post('/save-cate-post', 'CategoryPostController@save_cate_post');
+Route::post('/update-cate-post/{cate_post_id}', 'CategoryPostController@update_cate_post');
+Route::get('/delete-cate-post/{cate_post_id}', 'CategoryPostController@delete_cate_post');
+//Danh mục bài viết --  //Xử lý ẩn hiện
+Route::get('/active-cate-post/{cate_post_id}', 'CategoryPostController@active_cate_post');
+Route::get('/unactive-cate-post/{cate_post_id}', 'CategoryPostController@unactive_cate_post');
+
+//Bài viết
+Route::get('/add-post', 'PostController@add_post');
+Route::get('/show-post', 'PostController@show_post');
+Route::get('/edit-post/{post_id}', 'PostController@edit_post');
+Route::post('/save-post', 'PostController@save_post');
+Route::post('/update-post/{post_id}', 'PostController@update_post');
+Route::get('/delete-post/{post_id}', 'PostController@delete_post');
+//Giao diện
+Route::get('/cate-post/{cate_post_id}', 'PostController@cate_post');
+//Bài viết --  //Xử lý ẩn hiện
+Route::get('/active-post/{post_id}', 'PostController@active_post');
+Route::get('/unactive-post/{post_id}', 'PostController@unactive_post');

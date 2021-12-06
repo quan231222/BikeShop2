@@ -35,6 +35,8 @@ class AdminController extends Controller
         $order = DB::table('tbl_order')->count();
         $slider = DB::table('tbl_slider')->count();
         $cou = DB::table('tbl_coupon')->count();
+        $cate_post = DB::table('tbl_category_post')->count();
+        $post = DB::table('tbl_posts')->count();
 
         return view('admin.dashboard')
             ->with('category', $category)
@@ -42,7 +44,9 @@ class AdminController extends Controller
             ->with('product', $product)
             ->with('order', $order)
             ->with('slider', $slider)
-            ->with('cou', $cou);
+            ->with('cou', $cou)
+            ->with('cate_post', $cate_post)
+            ->with('post', $post);
     }
 
     public function dashboard(Request $request)
@@ -50,7 +54,10 @@ class AdminController extends Controller
         $admin_email = $request->admin_email;
         $admin_password = md5($request->admin_password);
 
-        $result = DB::table('tbl_admin')->where('admin_email', $admin_email)->where('admin_password', $admin_password)->first();
+        $result = DB::table('tbl_admin')
+            ->where('admin_email', $admin_email)
+            ->where('admin_password', $admin_password)
+            ->first();
         if ($result) {
             Session::put('admin_name', $result->admin_name);
             Session::put('admin_id', $result->admin_id);

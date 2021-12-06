@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoryPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -28,6 +29,7 @@ class CategoryProductController extends Controller
     public function add_category_product()
     {
         $this->AuthCheck();
+
         return view('admin.category_product.add_category_product');
     }
 
@@ -37,7 +39,8 @@ class CategoryProductController extends Controller
         $all_category_product = DB::table('tbl_category_product')->paginate(10);
         $manager_category_product = view('admin.category_product.show_category_product')->with('all_category_product', $all_category_product);
 
-        return view('admin_layout')->with('admin.category_product.show_category_product', $manager_category_product);
+        return view('admin_layout')
+            ->with('admin.category_product.show_category_product', $manager_category_product);
     }
 
     public function save_category_product(Request $request)
@@ -57,7 +60,9 @@ class CategoryProductController extends Controller
     public function active_category_product($category_product_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_category_product')->where('category_id', $category_product_id)->update(['category_status' => 1]);
+        DB::table('tbl_category_product')
+            ->where('category_id', $category_product_id)
+            ->update(['category_status' => 1]);
         Session::put('message', 'Hiển thị danh mục sản phẩm thành công');
 
         return Redirect::to('show-category-product');
@@ -66,7 +71,9 @@ class CategoryProductController extends Controller
     public function unactive_category_product($category_product_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_category_product')->where('category_id', $category_product_id)->update(['category_status' => 0]);
+        DB::table('tbl_category_product')
+            ->where('category_id', $category_product_id)
+            ->update(['category_status' => 0]);
         Session::put('message', 'Ẩn danh mục sản phẩm thành công');
 
         return Redirect::to('show-category-product');
@@ -75,7 +82,9 @@ class CategoryProductController extends Controller
     public function edit_category_product($category_product_id)
     {
         $this->AuthCheck();
-        $edit_category_product = DB::table('tbl_category_product')->where('category_id', $category_product_id)->get();
+        $edit_category_product = DB::table('tbl_category_product')
+            ->where('category_id', $category_product_id)
+            ->get();
         $manager_category_product = view('admin.category_product.edit_category_product')->with('edit_category_product', $edit_category_product);
 
         return view('admin_layout')->with('admin.category_product.edit_category_product', $manager_category_product);
@@ -88,7 +97,9 @@ class CategoryProductController extends Controller
         $data['category_name'] = $request->category_product_name;
         $data['category_desc'] = $request->category_product_desc;
 
-        DB::table('tbl_category_product')->where('category_id', $category_product_id)->update($data);
+        DB::table('tbl_category_product')
+            ->where('category_id', $category_product_id)
+            ->update($data);
         Session::put('message', 'Cập nhật danh mục sản phẩm thành công');
 
         return Redirect::to('show-category-product');
@@ -97,7 +108,9 @@ class CategoryProductController extends Controller
     public function delete_category_product($category_product_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_category_product')->where('category_id', $category_product_id)->delete();
+        DB::table('tbl_category_product')
+            ->where('category_id', $category_product_id)
+            ->delete();
         Session::put('message', 'Xoá danh mục sản phẩm thành công');
 
         return Redirect::to('show-category-product');
@@ -121,6 +134,9 @@ class CategoryProductController extends Controller
     //Xử lý giao diện
     public function show_category_home($category_id)
     {
+        //Danh mục sản phẩm
+        $cate_post = CategoryPost::orderBy('cate_post_id', 'asc')
+            ->get();
         $cate_product = DB::table('tbl_category_product')
             ->where('category_status', '1')
             ->orderBy('category_id', 'asc')
@@ -135,7 +151,8 @@ class CategoryProductController extends Controller
             ->where('tbl_product.category_id', $category_id)
             ->get();
 
-        $category_name = DB::table('tbl_category_product')->where('category_id', $category_id)
+        $category_name = DB::table('tbl_category_product')
+            ->where('category_id', $category_id)
             ->limit(1)
             ->get();
 
@@ -143,6 +160,7 @@ class CategoryProductController extends Controller
             ->with('category', $cate_product)
             ->with('brand', $brand_product)
             ->with('category_by_id', $category_by_id)
-            ->with('category_name', $category_name);
+            ->with('category_name', $category_name)
+            ->with('cate_post', $cate_post);
     }
 }

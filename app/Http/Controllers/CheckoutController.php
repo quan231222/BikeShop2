@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoryPost;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,18 +25,30 @@ class CheckoutController extends Controller
 
     public function login_checkout()
     {
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        return view('pages.checkout.login_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('pages.checkout.login_checkout')
+            ->with('category', $cate_product)
+            ->with('brand', $brand_product);
     }
 
     public function signup_checkout()
     {
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        return view('pages.checkout.signup_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('pages.checkout.signup_checkout')
+            ->with('category', $cate_product)
+            ->with('brand', $brand_product);
     }
 
     public function add_customer(Request $request)
@@ -56,10 +69,19 @@ class CheckoutController extends Controller
 
     public function checkout()
     {
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        //Danh mục sản phẩm
+        $cate_post = CategoryPost::orderBy('cate_post_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        return view('pages.checkout.show_checkout')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('pages.checkout.show_checkout')
+            ->with('category', $cate_product)
+            ->with('brand', $brand_product)
+            ->with('cate_post', $cate_post);
     }
 
     public function save_checkout_customer(Request $request)
@@ -80,10 +102,18 @@ class CheckoutController extends Controller
 
     public function payment()
     {
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        $cate_post = CategoryPost::orderBy('cate_post_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        return view('pages.checkout.payment')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('pages.checkout.payment')
+            ->with('category', $cate_product)
+            ->with('brand', $brand_product)
+            ->with('cate_post', $cate_post);
     }
 
     public function order_save(Request $request)
@@ -118,17 +148,19 @@ class CheckoutController extends Controller
         }
         if ($data['payment_method'] == 1) {
             Cart::destroy();
-            $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-            $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
 
-            return view('pages.checkout.tienmat')->with('category', $cate_product)->with('brand', $brand_product);
+            return Redirect::to('/send-mail');
         } elseif ($data['payment_method'] == 1) {
-            echo 'Thanh toán qua ví điện tử';
+            Cart::destroy();
+
+            return Redirect::to('/send-mail');
         } else {
-            echo 'Thanh toán qua thẻ ngân hàng';
+            Cart::destroy();
+
+            return Redirect::to('/send-mail');
         }
 
-        // return Redirect::to('/payment');
+        // return Redirect::to('/send-mail');
     }
 
     public function logout_checkout()
@@ -142,7 +174,10 @@ class CheckoutController extends Controller
         $email = $request->user_account;
         $password = md5($request->password_account);
 
-        $result = DB::table('tbl_customers')->where('customer_email', $email)->where('customer_password', $password)->first();
+        $result = DB::table('tbl_customers')
+            ->where('customer_email', $email)
+            ->where('customer_password', $password)
+            ->first();
 
         if ($result) {
             Session::put('customer_id', $result->customer_id);
@@ -158,10 +193,12 @@ class CheckoutController extends Controller
         $all_order = DB::table('tbl_order')
             ->join('tbl_customers', 'tbl_order.customer_id', '=', 'tbl_customers.customer_id')
             ->select('tbl_order.*', 'tbl_customers.customer_name')
-            ->orderBy('tbl_order.order_id', 'asc')->get();
+            ->orderBy('tbl_order.order_id', 'asc')
+            ->get();
         $manager_order = view('admin.manage_order')->with('all_order', $all_order);
 
-        return view('admin_layout')->with('admin.manage_order', $manager_order);
+        return view('admin_layout')
+            ->with('admin.manage_order', $manager_order);
     }
 
     public function view_order($order_id)
@@ -177,10 +214,15 @@ class CheckoutController extends Controller
 
         $product = DB::table('tbl_order_details')
             ->join('tbl_product', 'tbl_order_details.product_id', '=', 'tbl_product.product_id')
-            ->where('tbl_order_details.order_id', $order_id)->orderBy('category_id', 'asc')->get();
+            ->where('tbl_order_details.order_id', $order_id)
+            ->orderBy('category_id', 'asc')
+            ->get();
 
-        $manager_order_by_id = view('admin.view_order')->with('order_by_id', $order_by_id)->with('product', $product);
+        $manager_order_by_id = view('admin.view_order')
+            ->with('order_by_id', $order_by_id)
+            ->with('product', $product);
 
-        return view('admin_layout')->with('admin.view_order', $manager_order_by_id);
+        return view('admin_layout')
+            ->with('admin.view_order', $manager_order_by_id);
     }
 }

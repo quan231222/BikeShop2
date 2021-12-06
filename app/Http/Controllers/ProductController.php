@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoryPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
@@ -24,10 +25,16 @@ class ProductController extends Controller
     public function add_product()
     {
         $this->AuthCheck();
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        return view('admin.product.add_product')->with('cate_product', $cate_product)->with('brand_product', $brand_product);
+        return view('admin.product.add_product')
+            ->with('cate_product', $cate_product)
+            ->with('brand_product', $brand_product);
     }
 
     public function show_product()
@@ -76,7 +83,9 @@ class ProductController extends Controller
     public function active_product($product_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_product')->where('product_id', $product_id)->update(['product_status' => 1]);
+        DB::table('tbl_product')
+            ->where('product_id', $product_id)
+            ->update(['product_status' => 1]);
         Session::put('message', 'Hiển thị sản phẩm thành công');
 
         return Redirect::to('show-product');
@@ -85,7 +94,9 @@ class ProductController extends Controller
     public function unactive_product($product_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_product')->where('product_id', $product_id)->update(['product_status' => 0]);
+        DB::table('tbl_product')
+            ->where('product_id', $product_id)
+            ->update(['product_status' => 0]);
         Session::put('message', 'Ẩn sản phẩm thành công');
 
         return Redirect::to('show-product');
@@ -94,12 +105,20 @@ class ProductController extends Controller
     public function edit_product($product_id)
     {
         $this->AuthCheck();
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        $edit_product = DB::table('tbl_product')->where('product_id', $product_id)->get();
+        $edit_product = DB::table('tbl_product')
+            ->where('product_id', $product_id)
+            ->get();
 
-        $manager_product = view('admin.product.edit_product')->with('edit_product', $edit_product)->with('cate_product', $cate_product)
+        $manager_product = view('admin.product.edit_product')
+            ->with('edit_product', $edit_product)
+            ->with('cate_product', $cate_product)
             ->with('brand_product', $brand_product);
 
         return view('admin_layout')->with('admin.product.edit_product', $manager_product);
@@ -129,7 +148,9 @@ class ProductController extends Controller
 
             return Redirect::to('show-product');
         }
-        DB::table('tbl_product')->where('product_id', $product_id)->update($data);
+        DB::table('tbl_product')
+            ->where('product_id', $product_id)
+            ->update($data);
         Session::put('message', 'Cập nhật sản phẩm thành công');
 
         return Redirect::to('show-product');
@@ -138,7 +159,9 @@ class ProductController extends Controller
     public function delete_product($product_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_product')->where('product_id', $product_id)->delete();
+        DB::table('tbl_product')
+            ->where('product_id', $product_id)
+            ->delete();
         Session::put('message', 'Xoá sản phẩm thành công');
 
         return Redirect::to('show-product');
@@ -148,13 +171,22 @@ class ProductController extends Controller
     //Xử lý giao diện
     public function detail_product($product_id)
     {
-        $cate_product = DB::table('tbl_category_product')->where('category_status', '1')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->where('brand_status', '1')->orderBy('brand_id', 'asc')->get();
+        //Danh mục sản phẩm
+        $cate_post = CategoryPost::orderBy('cate_post_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->where('category_status', '1')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->where('brand_status', '1')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
         $details_product = DB::table('tbl_product')
             ->join('tbl_category_product', 'tbl_category_product.category_id', '=', 'tbl_product.category_id')
             ->join('tbl_brand', 'tbl_brand.brand_id', '=', 'tbl_product.brand_id')
-            ->where('tbl_product.product_id', $product_id)->get();
+            ->where('tbl_product.product_id', $product_id)
+            ->get();
 
         foreach ($details_product as $key => $value)
             $category_id = $value->category_id;
@@ -170,6 +202,7 @@ class ProductController extends Controller
             ->with('category', $cate_product)
             ->with('brand', $brand_product)
             ->with('details', $details_product)
-            ->with('relate', $related_product);
+            ->with('relate', $related_product)
+            ->with('cate_post', $cate_post);
     }
 }

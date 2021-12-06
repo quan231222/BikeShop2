@@ -91,9 +91,6 @@
                     <div class="logo">
                         <a href="{{ URL::to('/trang-chu') }}"><img
                                 src="{{ asset('public/front/images/logo2.png') }}" alt=" " /></a>
-                        {{-- <a href="{{ URL::to('/trang-chu') }}"><img
-                                src="{{ asset('public/front/images/logo2.png') }}" style="height: 35px;"
-                                alt=" " /></a> --}}
                     </div>
                     <div class="search">
                         <form action="{{ URL::to('/tim-kiem') }}" method="post">
@@ -147,10 +144,24 @@
             <ul class="menu">
                 <ul class="kid-menu ">
                     <li><a href="{{ URL::to('/all-product') }}">Sản phẩm</a></li>
-                    <li><a href=" product.html">Tin tức</a></li>
-                    <li><a href="product.html">Thông tin</a></li>
+                </ul>
+                <li><a href="#" class="active">Tin tức<img class="arrow-img"
+                            src="{{ asset('public/front/images/arrow1.png') }}" alt=""
+                            style="float: right; padding-top:20px">
+                    </a>
+                    <ul class="cute" style="display: block; overflow: hidden;">
+                        @foreach ($cate_post as $key => $value)
+                            <li class="subitem1"><a
+                                    href=" {{ URL::to('/danh-muc-bai-viet/' . $value->cate_post_id) }} ">
+                                    {{ $value->cate_post_name }} </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </li>
+                <ul class="kid-menu ">
+                    <li><a href="{{ URL::to('/about') }}">Thông tin</a></li>
                     <li class="menu-kid-left"><a href="{{ URL::to('/show-cart') }}">Giỏ hàng</a></li>
-                    <li class="menu-kid-left"><a href="contact.html">Liên hệ</a></li>
+                    <li class="menu-kid-left"><a href="{{ URL::to('/contact') }}">Liên hệ</a></li>
                 </ul>
             </ul>
         </div>
@@ -206,6 +217,35 @@
         });
     </script>
 
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your Plugin chat code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+        var chatbox = document.getElementById('fb-customer-chat');
+        chatbox.setAttribute("page_id", "106475258542182");
+        chatbox.setAttribute("attribution", "biz_inbox");
+
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml: true,
+                version: 'v12.0'
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
     <!---->
     <div class="footer">
         <div class="footer-top">
@@ -225,7 +265,8 @@
                     <p>Theo dõi chúng tôi</p>
                     <ul class="face-in-to">
                         {{-- <li><a href="#"><span> </span></a></li> --}}
-                        <li><a href="#"><span class="facebook-in" style="border-radius: 50%;"> </span></a></li>
+                        <li><a href="https://www.facebook.com/Arabic-BikeShop-106475258542182" target="_blank"><span
+                                    class="facebook-in" style="border-radius: 50%;"> </span></a></li>
                         <div class="clearfix"> </div>
                     </ul>
                     <div class="clearfix"> </div>
@@ -249,10 +290,9 @@
                     <h6>Trang web</h6>
                     <ul>
                         <li><a href="{{ URL::to('/all-product') }}">Sản phẩm</a></li>
-                        <li><a href="#">Tin tức</a></li>
-                        <li><a href="#">Thông tin</a></li>
-                        <li><a href="#">Giỏ hàng</a></li>
-                        <li><a href="#">Liên hệ</a></li>
+                        <li><a href="{{ URL::to('/about') }}">Thông tin</a></li>
+                        <li><a href="{{ URL::to('/show-cart') }}">Giỏ hàng</a></li>
+                        <li><a href="{{ URL::to('/contact') }}">Liên hệ</a></li>
                     </ul>
                 </div>
                 <div class="footer-bottom-cate bottom-grid-cat">

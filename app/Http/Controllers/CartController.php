@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CategoryPost;
 use App\Coupon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
@@ -18,7 +19,9 @@ class CartController extends Controller
         $productID = $request->productid_hidden;
         $quantity = $request->qty;
 
-        $product_info = DB::table('tbl_product')->where('product_id', $productID)->first();
+        $product_info = DB::table('tbl_product')
+            ->where('product_id', $productID)
+            ->first();
 
         $data['id'] = $product_info->product_id;
         $data['qty'] = $quantity;
@@ -34,10 +37,19 @@ class CartController extends Controller
 
     public function show_cart()
     {
-        $cate_product = DB::table('tbl_category_product')->orderBy('category_id', 'asc')->get();
-        $brand_product = DB::table('tbl_brand')->orderBy('brand_id', 'asc')->get();
+        //Danh mục sản phẩm
+        $cate_post = CategoryPost::orderBy('cate_post_id', 'asc')->get();
+        $cate_product = DB::table('tbl_category_product')
+            ->orderBy('category_id', 'asc')
+            ->get();
+        $brand_product = DB::table('tbl_brand')
+            ->orderBy('brand_id', 'asc')
+            ->get();
 
-        return view('pages.cart.show_cart')->with('category', $cate_product)->with('brand', $brand_product);
+        return view('pages.cart.show_cart')
+            ->with('category', $cate_product)
+            ->with('brand', $brand_product)
+            ->with('cate_post', $cate_post);
     }
 
     public function delete_pro_in_cart($rowId)

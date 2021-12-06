@@ -108,6 +108,42 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
+                Danh mục bài viết
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ URL::to('/add-cate-post') }}">
+                    <i class="far fa-sticky-note"></i>
+                    <span>Thêm danh mục bài viết</span></a>
+                <a class="nav-link" href="{{ URL::to('/show-cate-post') }}">
+                    <i class="far fa-sticky-note"></i>
+                    <span>Danh sách danh mục bài viết</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Bài viết
+            </div>
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ URL::to('/add-post') }}">
+                    <i class="fas fa-clone"></i>
+                    <span>Thêm bài viết</span></a>
+                <a class="nav-link" href="{{ URL::to('/show-post') }}">
+                    <i class="fas fa-clone"></i>
+                    <span>Danh sách bài viết</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
                 Slider
             </div>
 

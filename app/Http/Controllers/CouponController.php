@@ -36,7 +36,8 @@ class CouponController extends Controller
     {
         $coupon = Coupon::orderby('coupon_id', 'asc')->get();
 
-        return view('admin.coupon.show_coupon')->with(compact('coupon'));
+        return view('admin.coupon.show_coupon')
+            ->with(compact('coupon'));
     }
 
     public function delete_coupon($coupon_id)

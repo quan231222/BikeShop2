@@ -65,7 +65,9 @@ class SliderController extends Controller
     public function active_slider($slider_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_slider')->where('slider_id', $slider_id)->update(['slider_status' => 1]);
+        DB::table('tbl_slider')
+            ->where('slider_id', $slider_id)
+            ->update(['slider_status' => 1]);
         Session::put('message', 'Hiển thị slider thành công');
 
         return Redirect::to('show-slider');
@@ -74,7 +76,9 @@ class SliderController extends Controller
     public function unactive_slider($slider_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_slider')->where('slider_id', $slider_id)->update(['slider_status' => 0]);
+        DB::table('tbl_slider')
+            ->where('slider_id', $slider_id)
+            ->update(['slider_status' => 0]);
         Session::put('message', 'Ẩn slider thành công');
 
         return Redirect::to('show-slider');
@@ -83,7 +87,9 @@ class SliderController extends Controller
     public function delete_slider($slider_id)
     {
         $this->AuthCheck();
-        DB::table('tbl_slider')->where('slider_id', $slider_id)->delete();
+        DB::table('tbl_slider')
+            ->where('slider_id', $slider_id)
+            ->delete();
         Session::put('message', 'Xoá Slider thành công');
 
         return Redirect::to('show-slider');
