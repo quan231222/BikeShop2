@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
+session_start();
 
 class CategoryPostController extends Controller
 {
@@ -100,9 +101,5 @@ class CategoryPostController extends Controller
         Session::put('message', 'Xoá danh mục bài viết thành công');
 
         return redirect()->back();
-    }
-
-    public function cate_post($cate_post_id)
-    {
     }
 }
